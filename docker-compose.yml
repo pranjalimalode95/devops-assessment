@@ -1,0 +1,22 @@
+services:
+  backend:
+    build: ./backend
+    container_name: django_api
+    ports:
+      - "8000:8000"
+    environment:
+      - DEBUG=true
+      - DJANGO_SUPERUSER_USERNAME=admin
+      - DJANGO_SUPERUSER_EMAIL=admin@example.com
+      - DJANGO_SUPERUSER_PASSWORD=admin123
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL=http://localhost:8000
+    container_name: react_app
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
